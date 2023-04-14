@@ -28,7 +28,8 @@ class Calculator {
     };
 
     private isValidExpression(expression: string): boolean {
-        return expression.match(/^[0-9.]+[+\-*\/][0-9.]+$/) !== null;
+      const arithmeticRegex = /^[\d\s()+\-*/.%]+$/;
+      return arithmeticRegex.test(expression);
     }
 
     private clear(): void {
@@ -66,7 +67,7 @@ class Calculator {
         }
 
         if (!this.isValidExpression(expression)) {
-            return `Error: Invalid expression \n expression is not valid`;
+            return `Error: Invalid expression \nexpression is not a valid artihmetic expression`;
         }
 
 
@@ -75,15 +76,15 @@ class Calculator {
           if (this.tempResult === null) {
               this.tempResult = eval(expression);
           } else {
-            return `Error: Invalid expression \n compute state is not empty`;
+            return `Error: Invalid expression \ncompute state is not empty. Please clear the state first`;
           }
         } else {
           if (this.operator === '*' || this.operator === '/') {
             const frontDigit = expression.split(/[+\-*\/]/)[0];
-            this.tempResult = this.operationMap[this.operator](parseFloat(frontDigit), this.tempResult!);
+            this.tempResult = this.operationMap[this.operator](this.tempResult!, parseFloat(frontDigit));
             // slice the front digit
             expression = expression.slice(frontDigit.length);
-            if (!expression) {
+            if (!expression || expression.length === 0) {
               this.currentDisplay = this.tempResult!.toString();
               return this.currentDisplay!;
             }
@@ -97,7 +98,7 @@ class Calculator {
           }
           else {
             this.operator = null;
-            return `Error: Invalid expression \n operator is not valid`;
+            return `Error: Invalid expression \noperator is not valid`;
           }
         }
 
