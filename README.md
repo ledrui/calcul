@@ -31,6 +31,7 @@ This is repo is an implementation of a basic calculator CLI.
 
 2- Link the node app 
 `npm link`
+
 3- run from anywhere
 `calcul` type `q` or `quite` to exit
 
