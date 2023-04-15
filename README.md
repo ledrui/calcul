@@ -13,6 +13,8 @@ This is repo is an implementation of a basic calculator CLI.
 * node v18.15.0 or up
 * npm v9.5.0 or up
 * tsc v5.0.4 or up
+* install jest testing framework
+
 ### Installation
 1 - Clone this repo
 `git clone https://github.com/ledrui/calcul.git`
@@ -36,4 +38,6 @@ This is repo is an implementation of a basic calculator CLI.
 > *2=
 14
 ``` 
+### Run test
+`npm test`
 
