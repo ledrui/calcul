@@ -51,7 +51,7 @@ class Calculator {
         if (this.operator === '!') {
             this.tempResult = this.tempResult !== null? -1 * this.tempResult!: null;
             this.currentDisplay = this.tempResult?.toString();
-            return -1 * parseFloat(this.currentDisplay!);
+            return parseFloat(this.currentDisplay!);
         }
         if (['='].includes(this.operator!) && this.tempResult !== null) {
             this.operator = null;
@@ -65,11 +65,12 @@ class Calculator {
                 return this.tempResult!.toString();
             }
         }
-
         if (!this.isValidExpression(expression)) {
             return `Error: Invalid expression \nexpression is not a valid artihmetic expression`;
         }
-
+        if (this.operator === '/' && expression === '0') {
+          return `Error: Invalid expression \ndivision by zero`;
+        }
 
         expression = expression.split(/([+\-*\/^]|[0-9.]+|\w+)/).filter((item) => item !== '').join('');
         if (this.operator === null) {
@@ -79,7 +80,7 @@ class Calculator {
             return `Error: Invalid expression \ncompute state is not empty. Please clear the state first`;
           }
         } else {
-          if (this.operator === '*' || this.operator === '/') {
+          if (['*', '/'].includes(this.operator)) {
             const frontDigit = expression.split(/[+\-*\/]/)[0];
             this.tempResult = this.operationMap[this.operator](this.tempResult!, parseFloat(frontDigit));
             // slice the front digit
@@ -89,8 +90,12 @@ class Calculator {
               return this.currentDisplay!;
             }
           }
-          else if (this.operator === '+' || this.operator === '-') {
-            this.tempResult = this.operationMap[this.operator](this.tempResult!, parseFloat(expression));
+          else if (['+', '-'].includes(this.operator)) {
+            const evaluated = eval(expression);
+            if (evaluated === Infinity) {
+              return `Error: Invalid expression \ndivision by zero`;
+            }
+            this.tempResult = this.operationMap[this.operator](this.tempResult!, parseFloat(evaluated));
           }
           else if (this.operator === '=' && this.tempResult !== null) {
             this.currentDisplay = this.tempResult!.toString();
@@ -108,6 +113,7 @@ class Calculator {
         } else {
           this.currentDisplay = expression;
         }
+
         return this.currentDisplay!;
       }
 
