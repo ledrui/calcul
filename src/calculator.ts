@@ -38,7 +38,7 @@ class Calculator {
         this.tempResult = null;
       }
 
-    private evaluate(expression: string): string | number {
+    public evaluate(expression: string): string | number {
         // get the first character of the expression
         if (isNaN(parseFloat(expression[0]))) {
             this.operator = expression[0] as Operator;
